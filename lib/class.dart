@@ -3,14 +3,18 @@
 import 'package:flutter/foundation.dart';
 
 class Person extends Print {
-  String name;
-  Person._({@required this.name});
+  String _name;
+
+  String get name => "My $_name";
+  String setName(String name) => _name = name;
+
+  Person({@required name}) : this._name = name;
   factory Person.intAlex() {
-    return Person._(name: 'Alex');
+    return Person(name: 'Alex');
   }
 
   factory Person.intDima() {
-    return Person._(name: 'Dima');
+    return Person(name: 'Dima');
   }
 
   @override 
@@ -119,6 +123,7 @@ main() {
   // p = Person(); // can't set because it final
   final p1 = Person.intAlex();
   final p2 = Person.intDima();
+  String name = p2.name;
 
   final s1 = Session.init();
   final s2 = Session.init();
@@ -134,5 +139,7 @@ main() {
   SessionHoder<String> sessionHoder2 = SessionHoder('sdfsdgfsgdjfh');
 
   Student('Alex', 11).agePlusValue(3.3);
+
+  Person p122 = Person(name: 'sdf');
 }
 
