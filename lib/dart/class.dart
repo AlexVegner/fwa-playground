@@ -6,7 +6,7 @@ class Person extends Print {
   String _name;
 
   String get name => "My $_name";
-  String setName(String name) => _name = name;
+  set name(String name) => _name = name;
 
   Person({@required name}) : this._name = name;
   factory Person.intAlex() {
