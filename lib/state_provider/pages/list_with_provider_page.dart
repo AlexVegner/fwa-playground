@@ -1,31 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:fwa_playground/models/fake_items_generator.dart';
 import 'package:fwa_playground/models/item_model.dart';
-
-import 'details_page.dart';
+import 'package:fwa_playground/navigation/routes/router.dart';
+import 'package:fwa_playground/state_provider/providers/items_provider.dart';
+import 'package:provider/provider.dart';
 
 class ListPage extends StatelessWidget {
-  final List<ListItem> items;
 
   ListPage({Key key})
-      : items = generateItems(),
-        super(key: key);
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final title = 'Mixed List';
-  
+    final itemProvider = Provider.of<ItemsProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
       ),
       body: ListView.builder(
         // Let the ListView know how many items it needs to build.
-        itemCount: items.length,
+        itemCount: itemProvider.items.length,
         // Provide a builder function. This is where the magic happens.
         // Convert each item into a widget based on the type of item it is.
         itemBuilder: (context, index) {
-          final item = items[index];
+          final item = itemProvider.items[index];
 
           if (item is HeadingItem) {
             return ListTile(
@@ -39,16 +37,9 @@ class ListPage extends StatelessWidget {
               title: Text(item.sender),
               subtitle: Text(item.body),
               onTap: () {
-                
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => DetailsPage(
-                      title: item.sender,
-                      subtitle: item.body,
-                    ),
-                  ),
-                );
-
+                itemProvider.selectedItem = item;
+                Navigator.of(context).pushNamed(Router.DETAILS_ROUTE); 
+                // Navigator.of(context).pushNamed('${Router.DETAILS_ROUTE}/$index');
               },
             );
           }
@@ -58,3 +49,4 @@ class ListPage extends StatelessWidget {
     );
   }
 }
+
